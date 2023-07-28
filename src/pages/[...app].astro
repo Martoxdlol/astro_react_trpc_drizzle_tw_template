@@ -1,0 +1,20 @@
+---
+import { getSession } from "../services/session";
+import Layout from "../components/Layout.astro";
+
+const session = await getSession(Astro.cookies);
+
+import AppRouter from "../app/router";
+import LoadingBar from "../components/LoadingBar.astro";
+---
+
+<Layout session={session} excludeFooter>
+  <div
+    class="fixed top-0 right-0 bottom-0 left-0 flex justify-center items-center"
+  >
+    <LoadingBar />
+  </div>
+  <div class="fixed top-0 right-0 bottom-0 left-0">
+    <AppRouter client:only />
+  </div>
+</Layout>

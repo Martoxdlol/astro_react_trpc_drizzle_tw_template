@@ -1,0 +1,48 @@
+---
+import type { SessionData } from "../services/session";
+
+export interface Props {
+    session?: SessionData | null;
+}
+
+const { session } = Astro.props;
+---
+
+<header>
+    <nav>
+        <div class="container flex justify-between items-center">
+            <p class="uppercase font-medium text-xl sm:text-2xl">
+                My Web App
+            </p>
+
+            {session && <a href="/my" class="flex gap-2">
+                <div class="hidden lg:block">
+                    <p class="text-lg font-semibold">{session.name}</p>    
+                    <p class="text-sm font-medium opacity-50">{session.email}</p>    
+                </div>
+                <div>
+                    <img src={session.picture} class="w-8 h-8 md:w-12 md:h-12 rounded-full" />
+                </div>
+            </a>}
+
+            <div>
+                <slot />
+            </div>
+        </div>
+    </nav>
+    <hr />
+</header>
+
+<style>
+    nav {
+        background-color: #000;
+    }
+
+    nav > div {
+        @apply h-[60px] md:h-[120px];
+    }
+
+    hr {
+        border-color: #333;
+    }
+</style>

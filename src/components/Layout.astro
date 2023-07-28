@@ -1,0 +1,74 @@
+---
+import { SessionData, getSession } from "../services/session";
+import Footer from "./Footer.astro";
+
+export interface Props {
+  lang?: string;
+  title?: string;
+  loadSession?: boolean;
+  requireAuthenticated?: boolean;
+  session?: SessionData | null;
+  excludeFooter?: boolean;
+}
+
+const {
+  lang = "en",
+  title = "Document",
+  loadSession = false,
+  requireAuthenticated,
+  session: sessionProp,
+  excludeFooter = false,
+} = Astro.props;
+
+const session =
+  sessionProp ||
+  (loadSession || requireAuthenticated
+    ? await getSession(Astro.cookies)
+    : null);
+
+const stringifiedSession = JSON.stringify(session);
+---
+
+<!DOCTYPE html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <Fragment
+      set:html={`<script>window.session = JSON.parse('${stringifiedSession}')</script>`}
+    />
+    <style is:global>
+      * {
+        color-scheme: dark;
+        outline: transparent;
+      }
+
+      html {
+        box-sizing: border-box;
+      }
+
+      .container {
+        margin: 0 auto;
+        padding: 0 22.5px;
+      }
+
+      .center.container {
+        max-width: 600px;
+      }
+
+      #maincontainer {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        min-height: calc(100vh - 30px);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="maincontainer">
+      <slot />
+    </div>
+    {!excludeFooter && <Footer />}
+  </body>
+</html>

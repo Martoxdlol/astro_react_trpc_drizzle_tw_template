@@ -1,0 +1,30 @@
+---
+import { getSession } from "../services/session";
+import Layout from "../components/Layout.astro";
+import Appbar from "../components/Appbar.astro";
+import SignInGoogle from "../components/SignInGoogle.astro";
+
+const session = await getSession(Astro.cookies);
+const url = Astro.url;
+---
+
+<Layout session={session}>
+  <Appbar session={session} />
+  <div class="container">
+    <main>
+      <p class="text-lg font-semibold max-w-[400px] w-full mx-auto mt-5">
+        {
+          session
+            ? `You are logged in as ${session.name} (${session.email}). You can signin with another account.`
+            : "To use This App please continue with your Google Account"
+        }
+      </p>
+      <div class="flex justify-center mt-3">
+        <SignInGoogle
+          changeAccount={!!session}
+          redirect={url.searchParams.get("redirect") || undefined}
+        />
+      </div>
+    </main>
+  </div>
+</Layout>

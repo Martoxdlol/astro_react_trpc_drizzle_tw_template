@@ -1,0 +1,21 @@
+<div class="bg-stone-600 w-[120px] h-[5px] opacity-100" id="initial-loading-bar" style="transition: opacity 200s linear;">
+  <div
+    class="bg-blue-500 h-[5px] loading-bar"
+    style="transition: width 1s ease-in-out;"
+  >
+  </div>
+</div>
+<style>
+  .loading-bar {
+    animation: loading 40s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+
+  @keyframes loading {
+    from {
+      width: 0;
+    }
+    to {
+      width: 120px;
+    }
+  }
+</style>

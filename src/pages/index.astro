@@ -1,0 +1,28 @@
+---
+import Layout from "../components/Layout.astro";
+import Appbar from "../components/Appbar.astro";
+import RecentPosts from "../components/RecentPosts.astro";
+---
+
+<Layout>
+  <Appbar>
+    <a
+      href="/app"
+      class="px-6 py-3 font-semibold bg-stone-700  rounded-md focus:ring-2 ring-stone-500 border-[1px] border-transparent focus:border-black"
+    >
+      Open APP
+    </a>
+  </Appbar>
+  <h1 class="text-3xl text-center my-[80px]">Hello World!</h1>
+  <main class="container grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <RecentPosts />
+  </main>
+</Layout>
+
+<style is:global>
+  @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
+
+  html {
+    font-family: "Montserrat", sans-serif !important;
+  }
+</style>
