@@ -5,7 +5,7 @@ import AppMainScreen from "./AppMainScreen";
 import { Button } from "@mui/material";
 
 
-export function CreatePostView() {
+export function createPostView() {
     return <AppMainScreen
         title="Create"
         builder={() => <CreatePost />}

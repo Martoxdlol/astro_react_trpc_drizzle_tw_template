@@ -60,7 +60,7 @@ export function LabelBottomNavigation() {
 
     // useOutletContext()
 
-    return (
+    return (<>
         <BottomNavigation sx={{ width: { xs: 600, sm: 500 }, borderRadius: { xs: 0, sm: 2 }, overflow: 'hidden', marginBottom: { xs: 0, sm: 1 }, }} value={value} onChange={handleChange}>
             {options.map((option) => (
                 <BottomNavigationAction
@@ -70,6 +70,6 @@ export function LabelBottomNavigation() {
                     value={option.value}
                 />
             ))}
-        </BottomNavigation>
+        </BottomNavigation></>
     );
 }

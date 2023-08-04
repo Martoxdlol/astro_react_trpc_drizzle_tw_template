@@ -10,9 +10,10 @@ import {
 import AppMainScreen from '../views/AppMainScreen';
 import ErrorBoundary from './ErrorBoundry';
 import Providers from "./Providers";
-import { Home } from "../views/Home";
-import { CreatePost, CreatePostView } from "../views/Create";
+import { Home, homeView } from "../views/Home";
+import { CreatePost, createPostView } from "../views/Create";
 import { useEffect } from "react";
+import { favoritesView } from "../views/Favorites";
 
 export const routes: RouteObject[] = [
     {
@@ -25,21 +26,30 @@ export const routes: RouteObject[] = [
     },
     {
         path: "app",
-        element: <AppMainScreen title="Home" builder={({ posts }) => <Home posts={posts} />} />,
+        element: homeView(),
         errorElement: <ErrorBoundary />,
     },
     {
         path: "app/create",
-        element: <CreatePostView />,
+        element: createPostView(),
+        errorElement: <ErrorBoundary />,
+    },
+    {
+        path: "app/favorites",
+        element: favoritesView(),
         errorElement: <ErrorBoundary />,
     },
     {
         path: "app/*",
-        element: <AppMainScreen title="Not found" builder={({ posts }) => <div><p className="text-2xl mt-8 text-center">The page you were looking was not found</p></div>} />,
+        element: notFoundView(),
         errorElement: <ErrorBoundary />,
     },
 
 ]
+
+function notFoundView() {
+    return <AppMainScreen title="Not found" builder={({ posts }) => <div><p className="text-2xl mt-8 text-center">The page you were looking was not found</p></div>} />
+}
 
 const router = createBrowserRouter(routes);
 
