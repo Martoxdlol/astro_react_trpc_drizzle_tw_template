@@ -9,12 +9,28 @@ import type { inferReactQueryProcedureOptions } from '@trpc/react-query';
 const t = initTRPC.context<Context>().create();
 
 export const router = t.router;
-export const publicProcedure = t.procedure;
+export const procedure = t.procedure;
+
+const protectedProcedure = procedure.use(async ({ ctx, next }) => {
+  if (!ctx.session) {
+    throw new TRPCError({
+      code: 'UNAUTHORIZED',
+      message: 'You must be logged in to do that',
+    })
+  }
+
+  return next({
+    ctx: {
+      ...ctx,
+      session: ctx.session,
+    },
+  });
+})
 
 export const appRouter = router({
   // Queries are the best place to fetch data
-  getPostsOfCurrentUser: publicProcedure.query(({ ctx }) => {
-    if(!ctx.session) {
+  getPostsOfCurrentUser: procedure.query(({ ctx }) => {
+    if (!ctx.session) {
       throw new TRPCError({
         code: 'UNAUTHORIZED',
         message: 'You must be logged in to do that',
@@ -31,18 +47,27 @@ export const appRouter = router({
     return posts
   }),
 
-  address: publicProcedure.query(({ ctx }) => {
+  address: procedure.query(({ ctx }) => {
     return ctx.clientAddress
   }),
 
   // Mutations are the best place to do things like updating a database
-  goodbye: publicProcedure.mutation(async (opts) => {
+  goodbye: procedure.mutation(async (opts) => {
 
     return {
       message: 'goodbye!',
     };
   }),
 
+
+
+  getPostsOfUser: protectedProcedure.query(async ({ ctx }) => {
+    const userId = ctx.session.id
+
+    return database.query.posts.findMany({
+      where: eq(schema.posts.userId, userId),
+    })
+  }),
 
 });
 

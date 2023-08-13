@@ -42,3 +42,7 @@ export const postRelations = relations(posts, ({ one }) => ({
         references: [users.id],
     })
 }));
+
+export const usersRelations = relations(users, ({ many }) => ({
+    posts: many(posts)
+}));
